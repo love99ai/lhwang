@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kunguo.linghuawang.dao.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.kunguo.linghuawang.pojo.Notice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="noticeTitle" jdbcType="VARCHAR" property="noticetitle" />
+    <result column="noticeImg" jdbcType="VARCHAR" property="noticeimg" />
+    <result column="noticeTime" jdbcType="TIMESTAMP" property="noticetime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kunguo.linghuawang.pojo.Notice">
+    <result column="noticeContent" jdbcType="LONGVARCHAR" property="noticecontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, noticeTitle, noticeImg, noticeTime
+  </sql>
+  <sql id="Blob_Column_List">
+    noticeContent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_notice
+   where id IN (#{ids})
+  </delete>
+  <insert id="insert" parameterType="com.kunguo.linghuawang.pojo.Notice">
+    insert into tb_notice (id, noticeTitle, noticeImg, 
+      noticeTime, noticeContent)
+    values (#{id,jdbcType=INTEGER}, #{noticetitle,jdbcType=VARCHAR}, #{noticeimg,jdbcType=VARCHAR}, 
+      #{noticetime,jdbcType=TIMESTAMP}, #{noticecontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kunguo.linghuawang.pojo.Notice">
+    insert into tb_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="noticetitle != null">
+        noticeTitle,
+      </if>
+      <if test="noticeimg != null">
+        noticeImg,
+      </if>
+      <if test="noticetime != null">
+        noticeTime,
+      </if>
+      <if test="noticecontent != null">
+        noticeContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="noticetitle != null">
+        #{noticetitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeimg != null">
+        #{noticeimg,jdbcType=VARCHAR},
+      </if>
+      <if test="noticetime != null">
+        #{noticetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticecontent != null">
+        #{noticecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kunguo.linghuawang.pojo.Notice">
+    update tb_notice
+    <set>
+      <if test="noticetitle != null">
+        noticeTitle = #{noticetitle,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeimg != null">
+        noticeImg = #{noticeimg,jdbcType=VARCHAR},
+      </if>
+      <if test="noticetime != null">
+        noticeTime = #{noticetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticecontent != null">
+        noticeContent = #{noticecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kunguo.linghuawang.pojo.Notice">
+    update tb_notice
+    set noticeTitle = #{noticetitle,jdbcType=VARCHAR},
+      noticeImg = #{noticeimg,jdbcType=VARCHAR},
+      noticeTime = #{noticetime,jdbcType=TIMESTAMP},
+      noticeContent = #{noticecontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kunguo.linghuawang.pojo.Notice">
+    update tb_notice
+    set noticeTitle = #{noticetitle,jdbcType=VARCHAR},
+      noticeImg = #{noticeimg,jdbcType=VARCHAR},
+      noticeTime = #{noticetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAllNotice" parameterType="com.kunguo.linghuawang.pojo.Notice" resultMap="BaseResultMap">
+    SELECT *
+    from tb_notice
+    WHERE noticeTitle LIKE "%"#{title}"%"
+    GROUP BY id  DESC
+
+  </select>
+
+</mapper>

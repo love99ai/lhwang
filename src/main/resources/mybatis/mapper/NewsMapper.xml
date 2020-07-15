@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kunguo.linghuawang.dao.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.kunguo.linghuawang.pojo.News">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="newsTitle" jdbcType="VARCHAR" property="newstitle" />
+    <result column="newsDesc" jdbcType="VARCHAR" property="newsdesc" />
+    <result column="newsImg" jdbcType="VARCHAR" property="newsimg" />
+    <result column="newsTime" jdbcType="TIMESTAMP" property="newstime" />
+    <result column="isOpen" jdbcType="BIT" property="isopen" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kunguo.linghuawang.pojo.News">
+    <result column="newsContent" jdbcType="LONGVARCHAR" property="newscontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, newsTitle, newsDesc, newsImg, newsTime, isOpen
+  </sql>
+  <sql id="Blob_Column_List">
+    newsContent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_news
+   where id IN (#{ids})
+  </delete>
+  <insert id="insert" parameterType="com.kunguo.linghuawang.pojo.News">
+    insert into tb_news (id, newsTitle, newsDesc, 
+      newsImg, newsTime, isOpen, 
+      newsContent)
+    values (#{id,jdbcType=INTEGER}, #{newstitle,jdbcType=VARCHAR}, #{newsdesc,jdbcType=VARCHAR}, 
+      #{newsimg,jdbcType=VARCHAR}, #{newstime,jdbcType=TIMESTAMP}, #{isopen,jdbcType=SMALLINT}, 
+      #{newscontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kunguo.linghuawang.pojo.News">
+    insert into tb_news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="newstitle != null">
+        newsTitle,
+      </if>
+      <if test="newsdesc != null">
+        newsDesc,
+      </if>
+      <if test="newsimg != null">
+        newsImg,
+      </if>
+      <if test="newstime != null">
+        newsTime,
+      </if>
+      <if test="isopen != null">
+        isOpen,
+      </if>
+      <if test="newscontent != null">
+        newsContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="newstitle != null">
+        #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsdesc != null">
+        #{newsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimg != null">
+        #{newsimg,jdbcType=VARCHAR},
+      </if>
+      <if test="newstime != null">
+        #{newstime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isopen != null">
+        #{isopen,jdbcType=SMALLINT},
+      </if>
+      <if test="newscontent != null">
+        #{newscontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kunguo.linghuawang.pojo.News">
+    update tb_news
+    <set>
+      <if test="newstitle != null">
+        newsTitle = #{newstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newsdesc != null">
+        newsDesc = #{newsdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="newsimg != null">
+        newsImg = #{newsimg,jdbcType=VARCHAR},
+      </if>
+      <if test="newstime != null">
+        newsTime = #{newstime,jdbcType=TIMESTAMP},
+      </if>
+      <!--<if test="isopen != null">-->
+        <!--isOpen = #{isopen,jdbcType=SMALLINT},-->
+      <!--</if>-->
+      <if test="newscontent != null">
+        newsContent = #{newscontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kunguo.linghuawang.pojo.News">
+    update tb_news
+    set newsTitle = #{newstitle,jdbcType=VARCHAR},
+      newsDesc = #{newsdesc,jdbcType=VARCHAR},
+      newsImg = #{newsimg,jdbcType=VARCHAR},
+      newsTime = #{newstime,jdbcType=TIMESTAMP},
+      isOpen = #{isopen,jdbcType=SMALLINT},
+      newsContent = #{newscontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kunguo.linghuawang.pojo.News">
+    update tb_news
+    set newsTitle = #{newstitle,jdbcType=VARCHAR},
+      newsDesc = #{newsdesc,jdbcType=VARCHAR},
+      newsImg = #{newsimg,jdbcType=VARCHAR},
+      newsTime = #{newstime,jdbcType=TIMESTAMP},
+      isOpen = #{isopen,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--任务查询-->
+  <select id="selectAllNews" parameterType="com.kunguo.linghuawang.pojo.News" resultMap="BaseResultMap">
+    SELECT *
+    from tb_news
+    WHERE newsTitle LIKE "%"#{title}"%"
+    GROUP BY id  DESC
+
+  </select>
+
+  <!--修改任务状态-->
+  <update id="updateNewsOpen" parameterType="com.kunguo.linghuawang.pojo.News">
+    update tb_news
+    set
+    isOpen = #{isopen,jdbcType=SMALLINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

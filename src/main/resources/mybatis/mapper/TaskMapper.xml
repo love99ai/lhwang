@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kunguo.linghuawang.dao.TaskMapper">
+  <resultMap id="BaseResultMap" type="com.kunguo.linghuawang.pojo.Task">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="taskTitle" jdbcType="VARCHAR" property="tasktitle" />
+    <result column="taskdesc" jdbcType="VARCHAR" property="taskdesc" />
+    <result column="taskClassId" jdbcType="VARCHAR" property="taskclassid" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="taskState" jdbcType="BIT" property="taskstate" />
+    <result column="isNum" jdbcType="BIT" property="isnum" />
+    <result column="taskNum" jdbcType="INTEGER" property="tasknum" />
+    <result column="taskLastNum" jdbcType="INTEGER" property="tasklastnum" />
+    <result column="taskImg" jdbcType="VARCHAR" property="taskimg" />
+    <result column="releaseTime" jdbcType="TIMESTAMP" property="releasetime" />
+    <result column="taskPrice" jdbcType="DOUBLE" property="taskprice" />
+    <result column="taskUrl" jdbcType="VARCHAR" property="taskurl" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kunguo.linghuawang.pojo.Task">
+    <result column="taskContent" jdbcType="LONGVARCHAR" property="taskcontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, taskTitle, taskdesc, taskClassId, createTime, taskState, isNum, taskNum, taskLastNum, 
+    taskImg, releaseTime, taskPrice, taskUrl
+  </sql>
+  <sql id="Blob_Column_List">
+    taskContent
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_task
+    where id IN (#{ids})
+  </delete>
+  <insert id="insert" parameterType="com.kunguo.linghuawang.pojo.Task">
+    insert into tb_task (id, taskTitle, taskdesc, 
+      taskClassId, createTime, taskState, 
+      isNum, taskNum, taskLastNum, 
+      taskImg, releaseTime, taskPrice, 
+      taskUrl, taskContent)
+    values (#{id,jdbcType=INTEGER}, #{tasktitle,jdbcType=VARCHAR}, #{taskdesc,jdbcType=VARCHAR}, 
+      #{taskclassid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{taskstate,jdbcType=BIT}, 
+      #{isnum,jdbcType=BIT}, #{tasknum,jdbcType=INTEGER}, #{tasklastnum,jdbcType=INTEGER}, 
+      #{taskimg,jdbcType=VARCHAR}, #{releasetime,jdbcType=TIMESTAMP}, #{taskprice,jdbcType=DOUBLE}, 
+      #{taskurl,jdbcType=VARCHAR}, #{taskcontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kunguo.linghuawang.pojo.Task">
+    insert into tb_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tasktitle != null">
+        taskTitle,
+      </if>
+      <if test="taskdesc != null">
+        taskdesc,
+      </if>
+      <if test="taskclassid != null">
+        taskClassId,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="taskstate != null">
+        taskState,
+      </if>
+      <if test="isnum != null">
+        isNum,
+      </if>
+      <if test="tasknum != null">
+        taskNum,
+      </if>
+      <if test="tasklastnum != null">
+        taskLastNum,
+      </if>
+      <if test="taskimg != null">
+        taskImg,
+      </if>
+      <if test="releasetime != null">
+        releaseTime,
+      </if>
+      <if test="taskprice != null">
+        taskPrice,
+      </if>
+      <if test="taskurl != null">
+        taskUrl,
+      </if>
+      <if test="taskcontent != null">
+        taskContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tasktitle != null">
+        #{tasktitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taskdesc != null">
+        #{taskdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="taskclassid != null">
+        #{taskclassid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskstate != null">
+        #{taskstate,jdbcType=BIT},
+      </if>
+      <if test="isnum != null">
+        #{isnum,jdbcType=BIT},
+      </if>
+      <if test="tasknum != null">
+        #{tasknum,jdbcType=INTEGER},
+      </if>
+      <if test="tasklastnum != null">
+        #{tasklastnum,jdbcType=INTEGER},
+      </if>
+      <if test="taskimg != null">
+        #{taskimg,jdbcType=VARCHAR},
+      </if>
+      <if test="releasetime != null">
+        #{releasetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskprice != null">
+        #{taskprice,jdbcType=DOUBLE},
+      </if>
+      <if test="taskurl != null">
+        #{taskurl,jdbcType=VARCHAR},
+      </if>
+      <if test="taskcontent != null">
+        #{taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kunguo.linghuawang.pojo.Task">
+    update tb_task
+    <set>
+      <if test="tasktitle != null">
+        taskTitle = #{tasktitle,jdbcType=VARCHAR},
+      </if>
+      <if test="taskdesc != null">
+        taskdesc = #{taskdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="taskclassid != null">
+        taskClassId = #{taskclassid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskstate != null">
+        taskState = #{taskstate,jdbcType=BIT},
+      </if>
+      <if test="isnum != null">
+        isNum = #{isnum,jdbcType=BIT},
+      </if>
+      <if test="tasknum != null">
+        taskNum = #{tasknum,jdbcType=INTEGER},
+      </if>
+      <if test="tasklastnum != null">
+        taskLastNum = #{tasklastnum,jdbcType=INTEGER},
+      </if>
+      <if test="taskimg != null">
+        taskImg = #{taskimg,jdbcType=VARCHAR},
+      </if>
+      <if test="releasetime != null">
+        releaseTime = #{releasetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskprice != null">
+        taskPrice = #{taskprice,jdbcType=DOUBLE},
+      </if>
+      <if test="taskurl != null">
+        taskUrl = #{taskurl,jdbcType=VARCHAR},
+      </if>
+      <if test="taskcontent != null">
+        taskContent = #{taskcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kunguo.linghuawang.pojo.Task">
+    update tb_task
+    set taskTitle = #{tasktitle,jdbcType=VARCHAR},
+      taskdesc = #{taskdesc,jdbcType=VARCHAR},
+      taskClassId = #{taskclassid,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      taskState = #{taskstate,jdbcType=BIT},
+      isNum = #{isnum,jdbcType=BIT},
+      taskNum = #{tasknum,jdbcType=INTEGER},
+      taskLastNum = #{tasklastnum,jdbcType=INTEGER},
+      taskImg = #{taskimg,jdbcType=VARCHAR},
+      releaseTime = #{releasetime,jdbcType=TIMESTAMP},
+      taskPrice = #{taskprice,jdbcType=DOUBLE},
+      taskUrl = #{taskurl,jdbcType=VARCHAR},
+      taskContent = #{taskcontent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kunguo.linghuawang.pojo.Task">
+    update tb_task
+    set taskTitle = #{tasktitle,jdbcType=VARCHAR},
+      taskdesc = #{taskdesc,jdbcType=VARCHAR},
+      taskClassId = #{taskclassid,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      taskState = #{taskstate,jdbcType=BIT},
+      isNum = #{isnum,jdbcType=BIT},
+      taskNum = #{tasknum,jdbcType=INTEGER},
+      taskLastNum = #{tasklastnum,jdbcType=INTEGER},
+      taskImg = #{taskimg,jdbcType=VARCHAR},
+      releaseTime = #{releasetime,jdbcType=TIMESTAMP},
+      taskPrice = #{taskprice,jdbcType=DOUBLE},
+      taskUrl = #{taskurl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--任务查询-->
+  <select id="selectAllTask" parameterType="com.kunguo.linghuawang.pojo.Task" resultMap="BaseResultMap">
+    SELECT
+    tb_task.*,
+    GROUP_CONCAT(tb_task_class.className) as className FROM
+    tb_task LEFT JOIN tb_task_class
+    on FIND_IN_SET( tb_task_class.id, tb_task.taskClassId  )
+    WHERE tb_task.taskTitle LIKE "%"#{title}"%"
+    GROUP BY tb_task.id  DESC
+
+  </select>
+
+  <!--修改任务状态-->
+  <update id="updateTaskState" parameterType="com.kunguo.linghuawang.pojo.Task">
+    update tb_task
+    set
+    taskState = #{taskstate,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+</mapper>

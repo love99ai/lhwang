@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kunguo.linghuawang.dao.BannerMapper">
+  <resultMap id="BaseResultMap" type="com.kunguo.linghuawang.pojo.Banner">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="bannerTitle" jdbcType="VARCHAR" property="bannertitle" />
+    <result column="bannerImg" jdbcType="VARCHAR" property="bannerimg" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="bannerType" jdbcType="BIT" property="bannertype" />
+    <result column="otherId" jdbcType="INTEGER" property="otherid" />
+    <result column="index" jdbcType="INTEGER" property="index" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, bannerTitle, bannerImg, createTime, bannerType, otherId, index
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_banner
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_banner
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kunguo.linghuawang.pojo.Banner">
+    insert into tb_banner (id, bannerTitle, bannerImg, 
+      createTime, bannerType, otherId, 
+      index)
+    values (#{id,jdbcType=INTEGER}, #{bannertitle,jdbcType=VARCHAR}, #{bannerimg,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{bannertype,jdbcType=BIT}, #{otherid,jdbcType=INTEGER}, 
+      #{index,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kunguo.linghuawang.pojo.Banner">
+    insert into tb_banner
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="bannertitle != null">
+        bannerTitle,
+      </if>
+      <if test="bannerimg != null">
+        bannerImg,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="bannertype != null">
+        bannerType,
+      </if>
+      <if test="otherid != null">
+        otherId,
+      </if>
+      <if test="index != null">
+        index,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bannertitle != null">
+        #{bannertitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerimg != null">
+        #{bannerimg,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bannertype != null">
+        #{bannertype,jdbcType=BIT},
+      </if>
+      <if test="otherid != null">
+        #{otherid,jdbcType=INTEGER},
+      </if>
+      <if test="index != null">
+        #{index,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kunguo.linghuawang.pojo.Banner">
+    update tb_banner
+    <set>
+      <if test="bannertitle != null">
+        bannerTitle = #{bannertitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerimg != null">
+        bannerImg = #{bannerimg,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bannertype != null">
+        bannerType = #{bannertype,jdbcType=BIT},
+      </if>
+      <if test="otherid != null">
+        otherId = #{otherid,jdbcType=INTEGER},
+      </if>
+      <if test="index != null">
+        index = #{index,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kunguo.linghuawang.pojo.Banner">
+    update tb_banner
+    set bannerTitle = #{bannertitle,jdbcType=VARCHAR},
+      bannerImg = #{bannerimg,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      bannerType = #{bannertype,jdbcType=BIT},
+      otherId = #{otherid,jdbcType=INTEGER},
+      index = #{index,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAllBanner" parameterType="com.kunguo.linghuawang.pojo.Banner" resultMap="BaseResultMap">
+    SELECT *
+    from tb_banner
+    WHERE bannerTitle LIKE "%"#{title}"%"
+    GROUP BY tb_banner.index  ASC
+
+  </select>
+</mapper>

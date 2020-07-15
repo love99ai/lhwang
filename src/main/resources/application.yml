@@ -1,0 +1,43 @@
+
+server:
+  port: 8081
+
+spring:
+    mvc:
+      static-path-pattern: /static/**
+    datasource:
+        name: lhwang
+        url: jdbc:mysql://127.0.0.1:3306/kunguo_linghua?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+    thymeleaf:
+      prefix: classpath:/templates/
+      cache: false #关闭缓存
+      mode: LEGACYHTML5 #设置模板类型
+      encoding: utf-8 #设置编码
+      suffix: .html
+      content-type: text/html
+    resources:
+      static-locations:  classpath:/static/
+
+
+logging:
+  level:
+    com.kunguo.linghuawang.dao: debug
+
+
+
+
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+  type-aliases-package: com.kunguo.linghuawang.pojo
+#  config-location: classpath:mybatis/mybatis-config.xml
+
+
+
+
+
+
+
